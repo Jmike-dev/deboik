@@ -14,8 +14,19 @@ import {
 import { useForm } from "react-hook-form";
 import { Eye, Mail, User } from "lucide-react";
 import { toast } from "sonner";
+import { z } from "zod";
+import { createUser } from "./services/apiService";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const formSchema = z.object({
+    firstName: z.string().min(2, "First name must be at least 2 characters"),
+    lastName: z.string().min(2, "last name must be at least 2 characters"),
+    email: z.string().email("invalid email address"),
+    password: z.string().min(5, "must have minimum of 5 charaters"),
+});
 export default function SignUp() {
-    const form = useForm({
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
         defaultValues: {
             firstName: "",
             lastName: "",
@@ -24,8 +35,14 @@ export default function SignUp() {
         },
     });
 
-    const onSubmit = () => {
-        toast.success("toast working");
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
+        console.log(data);
+        try {
+            await createUser(data);
+            toast.success("User created");
+        } catch{
+            toast.error("Could not create user");
+        }
     };
 
     return (
