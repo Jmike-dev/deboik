@@ -8,9 +8,9 @@ export async function POST(request: NextRequest) {
         email: string;
         password: string;
         phone: string;
-        role: string; 
+        role: string;
     }
-    const { firstName, lastName, email, password, phone, role }:User =
+    const { firstName, lastName, email, password, phone, role }: User =
         await request.json();
     await connectMongoDb();
     await deboikStaff.create({
@@ -27,8 +27,18 @@ export async function POST(request: NextRequest) {
     );
 }
 
-export async function GET(){
-    await connectMongoDb()
-    const deboikStaffs =  await deboikStaff.find()
-    return NextResponse.json({deboikStaffs})
+export async function GET() {
+    await connectMongoDb();
+    const deboikStaffs = await deboikStaff.find();
+    return NextResponse.json({ deboikStaffs });
+}
+
+export async function DELETE(req: any) {
+    const id = req.nextUrl.searchParams.get("id");
+    await connectMongoDb();
+    await deboikStaff.findByIdAndDelete(id);
+    return NextResponse.json(
+        { message: "deboikStaff deleted" },
+        { status: 200 },
+    );
 }
