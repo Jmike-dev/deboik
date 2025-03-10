@@ -26,3 +26,9 @@ export async function POST(request: NextRequest) {
         { status: 201 },
     );
 }
+
+export async function GET(){
+    await connectMongoDb()
+    const deboikStaffs =  await deboikStaff.find()
+    return NextResponse.json({deboikStaffs})
+}
