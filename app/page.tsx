@@ -76,7 +76,7 @@ export default function SignUp() {
             <div className="flex w-full flex-col items-center justify-center p-6">
                 <div className="flex w-1/2 flex-col gap-6 p-8">
                     <h2 className="text-brand-text text-left text-3xl font-bold">
-                        Create your free account
+                        Create your free account Here
                     </h2>
                     <p className="text-left text-sm text-gray-500">
                         Already registered?{" "}
