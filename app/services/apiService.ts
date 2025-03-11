@@ -1,5 +1,4 @@
 import axios from "axios";
-const BASE_URL = process.env.BASE_URL as string;
 
 interface User {
     firstName: string;
@@ -9,12 +8,16 @@ interface User {
     phone?: string;
     role?: string;
 }
-export async function createUser(params: User) {
-    try {
-        const response = await axios.post(BASE_URL, params);
-        return response.data;
-    } catch (error) {
-        console.error("Couldn't create user", error);
-        return null;
-    }
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
+export function createUser(params:User) {
+    console.log("Base URL:", BASE_URL); // Debugging
+    return axios
+        .post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/deboikStaff`, params)
+        .then((response) => response.data)
+        .catch((error) => {
+            console.error("Couldn't create user", error);
+            return null;
+        });
 }
+
