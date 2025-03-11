@@ -8,7 +8,8 @@ interface User {
     phone?: string;
     role?: string;
 }
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+const BASE_URL =
+    process.env.NEXT_PUBLIC_BASE_URL || "hhttps://deboik.vercel.app";
 
 export function createUser(params:User) {
     console.log("Base URL:", BASE_URL); // Debugging
