@@ -12,12 +12,21 @@ const BASE_URL =
     process.env.NEXT_PUBLIC_BASE_URL || "hhttps://deboik.vercel.app";
 
 export function createUser(params:User) {
-    console.log("Base URL:", BASE_URL); // Debugging
     return axios
         .post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/deboikStaff`, params)
         .then((response) => response.data)
         .catch((error) => {
             console.error("Couldn't create user", error);
+            return null;
+        });
+}
+
+export function fetchUsers() {
+    return axios
+        .get(`${BASE_URL}/api/deboikStaff`)
+        .then((response) => response.data)
+        .catch((error) => {
+            console.error("Couldn't fetch users", error);
             return null;
         });
 }
