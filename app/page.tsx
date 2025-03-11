@@ -17,6 +17,8 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { createUser } from "./services/apiService";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+
 
 const formSchema = z.object({
     firstName: z.string().min(2, "First name must be at least 2 characters"),
@@ -25,6 +27,9 @@ const formSchema = z.object({
     password: z.string().min(5, "must have minimum of 5 charaters"),
 });
 export default function SignUp() {
+        const router = useRouter();
+
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -41,6 +46,7 @@ export default function SignUp() {
             await createUser(data);
             toast.success("User created");
             form.reset();
+            router.push('/dashboard')
         } catch {
             toast.error("Could not create user");
         }
