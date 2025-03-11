@@ -51,6 +51,7 @@ export default function SignUp() {
             toast.error("Could not create user");
         }
     };
+    
 
     return (
         <div className="bg-brand-grey flex h-screen flex-col md:flex-row">

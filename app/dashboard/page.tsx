@@ -63,12 +63,13 @@ function Dashboard() {
 
             {/* Main Content */}
             <main className="flex-1 p-5">
-                <div className="rounded bg-white p-5 shadow-md">
+                <div>
                     <h1 className="text-2xl font-bold">Josh Bakery Ventures</h1>
                     <p className="text-gray-600">
                         62, Bode Thomas, Surulere, Lagos
                     </p>
-
+                </div>
+                <div className="rounded bg-white p-5 shadow-md">
                     {/* Controls */}
                     <div className="mt-4 flex gap-2">
                         <select className="rounded border p-2">
