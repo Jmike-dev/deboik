@@ -40,7 +40,8 @@ export default function SignUp() {
         try {
             await createUser(data);
             toast.success("User created");
-        } catch{
+            form.reset();
+        } catch {
             toast.error("Could not create user");
         }
     };
