@@ -1,52 +1,33 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { Trash2 } from "lucide-react";
+import { fetchUsers } from "../services/apiService";
 
-const employees = [
-    {
-        firstName: "Joshua",
-        lastName: "Bakare",
-        email: "josh.bakery@gmail.com",
-        phone: "+2348012345678",
-        role: "Admin",
-    },
-    {
-        firstName: "Jane",
-        lastName: "Clement",
-        email: "josh.bakery@gmail.com",
-        phone: "+2348012345678",
-        role: "Staff",
-    },
-    {
-        firstName: "Hannah",
-        lastName: "Johnson",
-        email: "josh.bakery@gmail.com",
-        phone: "+2348012345678",
-        role: "Staff",
-    },
-    {
-        firstName: "John",
-        lastName: "Ngoka",
-        email: "josh.bakery@gmail.com",
-        phone: "+2348012345678",
-        role: "Staff",
-    },
-    {
-        firstName: "Omotayo",
-        lastName: "Adeleke",
-        email: "josh.bakery@gmail.com",
-        phone: "+2348012345678",
-        role: "Staff",
-    },
-    {
-        firstName: "Gloria",
-        lastName: "Amadi",
-        email: "josh.bakery@gmail.com",
-        phone: "+2348012345678",
-        role: "Staff",
-    },
-];
+interface User {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone?: string;
+    role?: string;
+}
 
 function Dashboard() {
+    const [users, setUsers] = useState<User[]>([]);
+
+    useEffect(() => {
+        fetchUsers().then((data) => {
+            console.log("Fetched Data:", data); // Debugging API response
+            setUsers(
+                Array.isArray(data?.deboikStaffs) ? data.deboikStaffs : [],
+            );
+        });
+    }, []);
+
+    useEffect(() => {
+        console.log("Updated Users:", users); // Log updated users
+    }, [users]);
+
     return (
         <div className="flex h-screen bg-gray-100">
             {/* Sidebar */}
@@ -99,31 +80,45 @@ function Dashboard() {
                             </tr>
                         </thead>
                         <tbody>
-                            {employees.map((employee, index) => (
-                                <tr key={index} className="text-center">
-                                    <td className="border p-2">
-                                        <input type="checkbox" />
-                                    </td>
-                                    <td className="border p-2">
-                                        {employee.firstName}
-                                    </td>
-                                    <td className="border p-2">
-                                        {employee.lastName}
-                                    </td>
-                                    <td className="border p-2">
-                                        {employee.email}
-                                    </td>
-                                    <td className="border p-2">
-                                        {employee.phone}
-                                    </td>
-                                    <td className="border p-2">
-                                        {employee.role}
-                                    </td>
-                                    <td className="cursor-pointer border p-2 text-red-500">
-                                        <Trash2 />
+                            {users.length > 0 ? (
+                                users.map((employee) => (
+                                    <tr
+                                        key={employee._id}
+                                        className="text-center"
+                                    >
+                                        <td className="border p-2">
+                                            <input type="checkbox" />
+                                        </td>
+                                        <td className="border p-2">
+                                            {employee.firstName}
+                                        </td>
+                                        <td className="border p-2">
+                                            {employee.lastName}
+                                        </td>
+                                        <td className="border p-2">
+                                            {employee.email}
+                                        </td>
+                                        <td className="border p-2">
+                                            {employee.phone || "N/A"}
+                                        </td>
+                                        <td className="border p-2">
+                                            {employee.role || "N/A"}
+                                        </td>
+                                        <td className="cursor-pointer border p-2 text-red-500">
+                                            <Trash2 />
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td
+                                        // colSpan="7"
+                                        className="p-4 text-center text-gray-500"
+                                    >
+                                        No users found
                                     </td>
                                 </tr>
-                            ))}
+                            )}
                         </tbody>
                     </table>
                 </div>
